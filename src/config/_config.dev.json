@@ -1,0 +1,15 @@
+{
+    "DB_NAME":"mongodb://myusername:mypassword@127.0.0.1:27017/motofinder?authsource=admin",
+    "PORT":8080,
+    "ACCESS_TOKEN_SECRET":"HJVSUDFWIBPWJWNVUFCYWFIUWP*@^&^&FBOJPOKLKBIUGI",
+    "REFRESH_TOKEN_SECRET":"POUYWIGSVKJHWPJNBIUGIUOWJ@()Y*(GUIB@KLWJPOSJI",
+    "ACCESS_TOKEN_EXPIRY":"1d",
+    "REFRESH_TOKEN_EXPIRY":"10d",
+    "NODE_ENV":"dev",
+    "EMAIL":"bhagaban999999999@gmail.com",
+    "PASSWORD":"ofbxllkwzjpjwphz",
+    "cloudinary_cloud_name": "dhdzjv2uq",
+    "cloudinary_api_key": "169337197952555",
+    "cloudinary_api_secret": "xeEXzB4PBZTUL5PVYluxFB3n4ZM",
+    "SALT_ROUND":10
+}
