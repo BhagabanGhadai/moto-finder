@@ -15,6 +15,9 @@ const schema = new mongoose.Schema({
     },
     'instagram_banner':{
         type:Object
+    },
+    'instagram_video':{
+        type:String
     }
 },{timestamps:true})
 

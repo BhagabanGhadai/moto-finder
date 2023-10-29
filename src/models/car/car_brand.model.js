@@ -16,4 +16,4 @@ schema.pre('save', function (next) {
     }
     next();
 });
-export default mongoose.model('car-brands', schema, 'car-brand')
+export default mongoose.model('car-brands', schema, 'car-brands')

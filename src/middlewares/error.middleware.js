@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import env from '../../env.js'
 import { ApiError } from '../utils/ApiError.js';
-
+import {errorLogger} from '../utils/winston.js'
 
 export const errorHandler = (err, req, res, next) => {
   let error = err;
@@ -15,7 +15,9 @@ export const errorHandler = (err, req, res, next) => {
     message: error.message,
     ...(env.NODE_ENV === "development" ? { stack: error.stack } : {}),
   };
-
+  if(env.NODE_ENV==="development"){
+    errorLogger.error(response);
+  }
   return res.status(error.statusCode).send(response);
 };
 

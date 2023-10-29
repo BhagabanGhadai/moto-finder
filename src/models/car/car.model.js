@@ -1,145 +1,166 @@
 import mongoose from "mongoose";
 
 const schema = new mongoose.Schema({
-    'car_slug':{
-        type:String,
-        required:true
+    'inspection_request_id':{
+        type: mongoose.Types.ObjectId,
+        ref: "sell-requests"
     },
-    'car_brand':{
-        type:mongoose.Types.ObjectId,
-        ref:"car-brands"
+    'car_slug': {
+        type: String
     },
-    'car_model':{
-        type:mongoose.Types.ObjectId,
-        ref:"car-models"
+    'car_title': {
+        type: String
     },
-    'make_year':{
-        type:Number
+    'car_brand': {
+        type: mongoose.Types.ObjectId,
+        ref: "car-brands"
     },
-    'registration_year':{
-        type:Number
+    'car_model': {
+        type: mongoose.Types.ObjectId,
+        ref: "car-models"
     },
-    'insurance_type':{
-        type:String
+    'make_year': {
+        type: Date
     },
-    'fuel_type':{
-        type:String
+    'registration_year': {
+        type: Date
     },
-    'kms_driven':{
-        type:String
+    'insurance_type': {
+        type: String
     },
-    'car_variant':{
-        type:mongoose.Types.ObjectId,
-        ref:"car-variants"
+    'fuel_type': {
+        type: String
     },
-    'color':{
-        type:String
+    'kms_driven': {
+        type: String
     },
-    'rto':{
-        type:String
+    'car_variant': {
+        type: mongoose.Types.ObjectId,
+        ref: "car-variants"
     },
-    'mmf_assured':{
-        type:String,
-        enum:["yes","no"]
+    'insurance_validity':{
+        type:Date
     },
-    'rc_photos':[
+    'color': {
+        type: String
+    },
+    'rto': {
+        type: String
+    },
+    'mmf_assured': {
+        type: String,
+        enum: ["yes", "no"]
+    },
+    'car_banner':{
+        type:Object
+    },
+    'rc_photos': [
         {
-            rc_img:Object
+            rc_img: Object
         }
     ],
-    'exterior_photos':[
+    'exterior_photos': [
         {
-            exterior_img:Object
+            exterior_img: Object
         }
     ],
-    'interior_photos':[
+    'exterior_videos': {
+        type: String
+    },
+    'interior_photos': [
         {
-            interior_img:Object
+            interior_img: Object
         }
     ],
-    'engine_photos':[
+    'interior_videos': {
+        type: String
+    },
+    'engine_photos': [
         {
-            engine_img:Object
+            engine_img: Object
         }
     ],
-    'tyre_photos':[
+    'tyre_photos': [
         {
-            tyre_img:Object
+            tyre_img: Object
         }
     ],
-    'dent_photos':[
+    'dent_photos': [
         {
-            dent_img:Object
+            dent_img: Object
         }
     ],
-    'engine_and_periphals':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'dent_videos': {
+        type: String
+    },
+    'engine_and_periphals': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'drivetrain_tested':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'drivetrain_tested': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'body_structure':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'body_structure': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'interior':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'interior': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'mechanical_tested':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'mechanical_tested': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'exterior':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'exterior': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'wheels_and_tyres':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'wheels_and_tyres': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
     // 'engine_and_periphals':{
@@ -152,219 +173,254 @@ const schema = new mongoose.Schema({
     //         default:0
     //     }
     // }
-    'engine_assembly_tested':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'engine_assembly_tested': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'engine_cooling_system':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'engine_cooling_system': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'air_supply_system':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'air_supply_system': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'fuel_supply_system':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'fuel_supply_system': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'mechanical':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'mechanical': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'exhaust_system':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'exhaust_system': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'ignation_system_tested':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'ignation_system_tested': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'transmission':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'transmission': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'final_drive':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'final_drive': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'core_structure':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'core_structure': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'support_structure':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'support_structure': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'air_condition_system':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'air_condition_system': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'standrad_fitment_and_features':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'standrad_fitment_and_features': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'breaks':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'breaks': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'steering':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'steering': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'susspension':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'susspension': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'wheels':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'wheels': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'tyres':{
-        'answer':{
-            type:String,
-            enum:['yes','no']
+    'tyres': {
+        'answer': {
+            type: String,
+            enum: ['yes', 'no']
         },
-        'stars':{
-            type:Number,
-            default:0
+        'stars': {
+            type: Number,
+            default: 0
         }
     },
-    'is_published':{
-        type:Boolean,
-        default:false
+    'is_published': {
+        type: Boolean,
+        default: false
     },
-    'is_booked':{
-        type:Boolean,
-        default:false
+    'is_booked': {
+        type: Boolean,
+        default: false
     },
-    'book_date':{
-        type:Date
+    'book_date': {
+        type: Date
     },
-    'is_sold':{
-        type:Boolean,
-        default:false
+    'is_sold': {
+        type: Boolean,
+        default: false
     },
-    'sold_date':{
-        type:Date
+    'sold_date': {
+        type: Date
     },
-    'price':{
-        type:Number
+    'price': {
+        type: Number
     },
-//
-'owner_serial_no': {
-    type: String,
-    required: true
-},
-'body_type':{
-    type:String,
-    enum:["hatchback","minivan","pickup truck","convertible","coupe","wagaon","luxry","hybrid","sedan"]
-},
-'lifestyle':{
-    type:String
-}
-},{timestamps:true})
+    'owner_serial_no': {
+        type: String
+    },
+    'body_type': {
+        type: String,
+        enum: ["hatchback", "minivan", "pickup truck", "convertible", "coupe", "wagaon", "luxry", "hybrid", "sedan"]
+    },
+    'lifestyle': {
+        type: String
+    },
+    'transmission': {
+        type: String
+    },
+    'customer_type': {
+        type: String,
+        enum: ["seller", "dealer"]
+    },
+    'contact_details':{
+        'full_name':{
+            type:String
+        },
+        'email':{
+            type:String
+        },
+        'phone_number':{
+            type:String
+        },
+        'state':{
+            type:String
+        },
+        'city':{
+            type:String
+        },
+        'pincode':{
+            type:Number
+        },
+        'address':{
+            type:String
+        }
+    },
+    'reg_no':{
+        type:String
+    },
+    'views':{
+        type:Number,
+        default:0
+    }
+}, { timestamps: true })
 
 export default mongoose.model('car-details', schema, 'car-details')

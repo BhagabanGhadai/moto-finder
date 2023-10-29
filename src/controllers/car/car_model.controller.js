@@ -15,9 +15,7 @@ export const getSpecificCarModel = asyncHandler(async (req, res) => {
     if (!req.query.car_model_id) {
         throw new ApiError(400, 'car model id is required')
     }
-
-     let car = await carModel.findById(req.query.car_model_id)
-   
+    let car = await carModel.findById(req.query.car_model_id)
     if (!car) {
         throw new ApiError(404, 'no such car model found')
     }

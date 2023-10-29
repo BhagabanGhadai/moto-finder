@@ -61,6 +61,7 @@ export const updateSpecificCarBrand = asyncHandler(async (req, res) => {
         throw new ApiError(404, 'no such car brand found')
     }
     if (req.files && req.files["car_brand_image"]) {
+        await DELETE_IMAGE(car.car_brand_image.public_id)
         let upload = await UPLOAD_IMAGE(req.files.car_brand_image[0])
         req.body.car_brand_image = {
             public_id: upload.public_id,
@@ -85,6 +86,7 @@ export const deleteSpecificCarBrand = asyncHandler(async (req, res) => {
     if (!car) {
         throw new ApiError(404, 'no such car brand found')
     }
+    await DELETE_IMAGE(car.car_brand_image.public_id)
     await carBrand.findOneAndDelete({ _id: req.query.car_brand_id })
     
     return res.status(204).send(new ApiResponse(204,{},'deletion successful'))

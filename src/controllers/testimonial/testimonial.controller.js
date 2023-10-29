@@ -24,6 +24,11 @@ export const getAllTestimonial = asyncHandler(async (req, res) => {
             $sort:{createdAt:-1}
         }
     ]
+    if(req.query.testimony_id){
+        pipeline.push({
+            $match:{"_id":new mongoose.Types.ObjectId(req.query.testimony_id)}
+        })
+    }
     let testimony_list = await Testimonial.aggregate(pipeline)
     
     if (!testimony_list.length) {
@@ -36,12 +41,11 @@ export const deleteSpecificTestimonial = asyncHandler(async (req, res) => {
     if (!req.query.testimony_id) {
         throw new ApiError(400, 'testimony id is required')
     }
-
-     let testimony = await Testimonial.findById(req.query.testimony_id)
-   
+    let testimony = await Testimonial.findById(req.query.testimony_id)
     if (!testimony) {
         throw new ApiError(404, 'no such testimony found')
     }
+    await DELETE_IMAGE(testimony.testimony_img.public_id)
     await Testimonial.findOneAndDelete({ _id: req.query.testimony_id })
     
     return res.status(204).send(new ApiResponse(204,{},'deletion successful'))

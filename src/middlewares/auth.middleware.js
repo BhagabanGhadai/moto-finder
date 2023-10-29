@@ -3,6 +3,7 @@ import asyncHandler from '../utils/asyncHandler.js';
 import { ApiError } from '../utils/ApiError.js'; 
 import env  from '../../env.js';
 import blackListModel from '../models/blacklisttoken.model.js';
+
 export const verifyJWT = asyncHandler(async (req, res, next) => {
   const token =
     req.cookies?.accessToken ||

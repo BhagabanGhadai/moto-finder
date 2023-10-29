@@ -15,6 +15,9 @@ const schema = new mongoose.Schema({
     },
     'testimony_img':{
         type:Object
+    },
+    'testimony_video':{
+        type:String
     }
 },{timestamps:true})
 

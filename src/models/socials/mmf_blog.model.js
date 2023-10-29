@@ -15,6 +15,9 @@ const schema = new mongoose.Schema({
     },
     'blog_banner':{
         type:Object
+    },
+    'blog_video':{
+        type:String
     }
 },{timestamps:true})
 

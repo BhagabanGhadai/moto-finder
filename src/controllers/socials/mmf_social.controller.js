@@ -38,14 +38,12 @@ export const deleteSpecificYoutubePlacement = asyncHandler(async (req, res) => {
     if (!req.query.placement_id) {
         throw new ApiError(400, 'placement id is required')
     }
-
-     let youtube = await Youtube.findById(req.query.placement_id)
-   
+    let youtube = await Youtube.findById(req.query.placement_id)
     if (!youtube) {
         throw new ApiError(404, 'no such data found')
     }
+    await DELETE_IMAGE(youtube.youtube_banner.public_id)
     await Youtube.findOneAndDelete({ _id: req.query.placement_id })
-    
     return res.status(204).send(new ApiResponse(204,{},'deletion successful'))
 })
 
@@ -86,6 +84,7 @@ export const deleteSpecificInstagramPlacement = asyncHandler(async (req, res) =>
     if (!instagram) {
         throw new ApiError(404, 'no such data found')
     }
+    await DELETE_IMAGE(instagram.instagram_banner.public_id)
     await Instagram.findOneAndDelete({ _id: req.query.placement_id })
     
     return res.status(204).send(new ApiResponse(204,{},'deletion successful'))
@@ -140,13 +139,11 @@ export const deleteSpecificBlog = asyncHandler(async (req, res) => {
     if (!req.query.blog_id) {
         throw new ApiError(400, 'blog id is required')
     }
-
-     let blog = await Blog.findById(req.query.blog_id)
-   
+    let blog = await Blog.findById(req.query.blog_id)
     if (!blog) {
         throw new ApiError(404, 'no such data found')
     }
+    await DELETE_IMAGE(blog.blog_banner.public_id)
     await Blog.findOneAndDelete({ _id: req.query.blog_id })
-    
     return res.status(204).send(new ApiResponse(204,{},'deletion successful'))
 })

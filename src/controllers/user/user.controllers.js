@@ -119,7 +119,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: env.NODE_ENV === "production",
+        secure: env.NODE_ENV === "prod",
     };
 
     return res
@@ -192,7 +192,7 @@ export const resendEmailVerification = asyncHandler(async (req, res) => {
     }
 
     user.emailVerificationOTP = createOTP();
-    user.emailVerificationExpiry = moment(new Date()).add(2, 'minutes').utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
+    user.emailVerificationExpiry = moment(new Date()).add(env.PASSWORD_EXPIRATION_MINUTES, 'minutes').utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
     await user.save({ validateBeforeSave: false });
 
     await sendEmail({
@@ -293,7 +293,7 @@ export const handleSocialLogin = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV === "prod",
     };
 
     return res
@@ -354,7 +354,7 @@ export const forgotPasswordRequest = asyncHandler(async (req, res) => {
     }
 
     user.forgotPasswordOTP = createOTP();
-    user.forgotPasswordExpiry = moment(new Date()).add(2, 'minutes').utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
+    user.forgotPasswordExpiry = moment(new Date()).add(env.PASSWORD_EXPIRATION_MINUTES, 'minutes').utc().format("YYYY-MM-DDTHH:mm:ss.SSS[Z]")
     await user.save({ validateBeforeSave: false });
     await sendEmail({
         email: user?.email,
@@ -431,45 +431,106 @@ export const getAllUserByAdmin = asyncHandler(async (req, res) => {
     let pipeline = [
         {
             $sort: { createdAt: -1 }
+        },
+        {
+            $match: {
+                isEmailVerified: true
+            }
         }
     ]
-    if(req.query.role){
+    if (req.query.role) {
         pipeline.push({
-            $match:{
-                role:req.query.role
+            $match: {
+                role: req.query.role
             }
         })
-    }else{
+    } else {
         pipeline.push({
-            $match:{
-                role:"user"
+            $match: {
+                role: "user"
             }
         })
     }
-    pipeline.push({ "$skip": (page - 1) * page_size }, { "$limit": page_size })
+    if (req.query.search) {
+        pipeline.push({
+            $match: {
+                "name": { $regex: '.*' + req.query.search + '.*', $options: 'i' }
+            }
+        })
+    }
+    pipeline.push(
+        {
+            "$lookup": {
+                from: "car-watch-history",
+                let:{
+                    user_id:"$_id"
+                },
+                pipeline:[
+                    {
+                        $match:{$expr:{$eq:["$user_id","$$user_id"]}}
+                    },
+                    {
+                        $lookup:{
+                            from:"car-details",
+                            let:{
+                                car_id:"$car_id"
+                            },
+                            pipeline:[
+                                {
+                                    $match:{$expr:{$eq:["$_id","$$car_id"]}}
+                                },
+                                {
+                                    $project:{"car_title":1,"_id":0}
+                                }
+                            ],
+                            // localField:"car_id",
+                            // foreignField:"_id",
+                            as:"car_details"
+                        }
+                    },
+                    {
+                        $project:{"car_details":1,"createdAt":1,"_id":0}
+                    }
+                ],
+                // localField: "_id",
+                // foreignField: "user_id",
+                as: "recently_watched"
+            }
+        },
+        {
+            $project:{
+                "name":1,
+                "email":1,
+                "phone":1,
+                "recently_watched":1,
+                "createdAt":1
+            }
+        },
+        { "$skip": (page - 1) * page_size },
+        { "$limit": page_size })
+
     let user_list = await User.aggregate(pipeline)
     if (!user_list.length) {
         throw new ApiError(404, "user list not found")
     }
     return res.status(200).send(new ApiResponse(200, user_list, "user list fetched successful"))
 })
-export const addMemberByAdmin = asyncHandler (async (req, res)=> {
+export const addMemberByAdmin = asyncHandler(async (req, res) => {
     const existedUser = await User.findOne({ "email": req.body.email, isEmailVerified: true });
-
     if (existedUser) {
         throw new ApiError(409, "User with email already exists");
     }
-    req.body.password = await hashedPassword(req.body.firstName+createOTP())
-    req.body.isEmailVerified=true
-    req.body.name=req.body.firstName+" "+req.body.lastName
-    req.body.role="member"
-     await User.create(req.body);
+    req.body.password = await hashedPassword(req.body.password)
+    req.body.isEmailVerified = true
+    req.body.name = req.body.firstName + " " + req.body.lastName
+    req.body.role = "member"
+    await User.create(req.body);
     return res
-    .status(201)
-    .json(
-        new ApiResponse(
-            200,{},
-            "Users registered successfully."
-        )
-    );
+        .status(201)
+        .json(
+            new ApiResponse(
+                200, {},
+                "Member Added successfully."
+            )
+        );
 })

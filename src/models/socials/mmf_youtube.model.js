@@ -11,6 +11,9 @@ const schema = new mongoose.Schema({
     },
     'youtube_banner':{
         type:Object
+    },
+    'youtube_video':{
+        type:String
     }
 },{timestamps:true})
 

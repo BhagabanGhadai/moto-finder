@@ -14,9 +14,7 @@ export const getSpecificCarVariant = asyncHandler(async (req, res) => {
     if (!req.query.car_variant_id) {
         throw new ApiError(400, 'car variant id is required')
     }
-
-     let car = await carVariant.findById(req.query.car_variant_id)
-   
+    let car = await carVariant.findById(req.query.car_variant_id)
     if (!car) {
         throw new ApiError(404, 'no such car variant found')
     }

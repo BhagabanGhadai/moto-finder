@@ -62,6 +62,7 @@ export const updateSpecificLocation = asyncHandler(async (req, res) => {
         throw new ApiError(404, 'no such rto location found')
     }
     if (req.files && req.files["city_image"]) {
+        await DELETE_IMAGE(location.city_image.public_id)
         let upload = await UPLOAD_IMAGE(req.files.city_image[0])
         req.body.city_image ={
             public_id: upload.public_id,
@@ -88,7 +89,7 @@ export const deleteSpecificLocation = asyncHandler(async (req, res) => {
      if (!location) {
         throw new ApiError(404, 'no such rto location found')
     }
-
+    await DELETE_IMAGE(location.city_image.public_id)
     await rtoCity.findOneAndDelete({ _id: req.query.rto_location_id })
     
     return res.status(204).send(new ApiResponse(204,{},'deletion successful'))

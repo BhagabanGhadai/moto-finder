@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
         ref: "user-details"
     },
     'car_brand':{
-        type:mongoose.Types.ObjectId,
+        type:mongoose.Schema.Types.ObjectId,
         ref:"car-brands"
     },
     'rto_location': {
@@ -14,23 +14,24 @@ const schema = new mongoose.Schema({
         ref: "rto-locations"
     },
     'year': {
-        type: Number,
+        type: Date,
         required: true
     },
-    'model': {
+    'car_model': {
         type: mongoose.Schema.Types.ObjectId,
         ref: "car-models"
     },
     'owner_serial_no': {
-        type: String,
+        type: Number,
         required: true
     },
     'kms_driven': {
-        type: String,
+        type: Number,
         required: true
     },
     'transmission':{
         type:String,
+        enum:["Automatic","Manual"],
         required:true
     },
     'when_want_to_sell': {
@@ -49,7 +50,7 @@ const schema = new mongoose.Schema({
         type: String,
         validate: {
             validator: (v) => {
-                if (!(v == 'initiated' || v == 'pending'|| v == 'cancelled')) {
+                if (!(v == 'initiated' || v == 'paid' || v == 'cancelled'|| v=="approved")) {
                     return false
                 }
                 return true
@@ -60,6 +61,36 @@ const schema = new mongoose.Schema({
     },
     'expected_price':{
         type:Number
+    },
+    'schedule_date':{
+        type:Date
+    },
+    'is_dealer_verification':{
+        type:Boolean,
+        default:false
+    },
+    'contact_details':{
+        'full_name':{
+            type:String
+        },
+        'email':{
+            type:String
+        },
+        'phone_number':{
+            type:Number
+        },
+        'state':{
+            type:String
+        },
+        'city':{
+            type:String
+        },
+        'pincode':{
+            type:Number
+        },
+        'address':{
+            type:String
+        }
     }
 },{timestamps: true })
 export default mongoose.model('sell-requests', schema, 'sell-requests')
