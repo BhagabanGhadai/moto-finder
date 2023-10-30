@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import { ApiError } from '../../utils/ApiError.js';
-process.env.NODE_ENV == "prod" ? dotenv.config({ path: "./.env" }) : dotenv.config({ path: "./.dev.env" })
+process.env.NODE_ENV == "prod" ? dotenv.config({ path: "./.env" }) : dotenv.config({ path: "./.env" })
 import Joi from 'joi'
 
 const envVarsSchema = Joi.object().keys({
