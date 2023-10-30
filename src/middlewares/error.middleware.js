@@ -13,9 +13,9 @@ export const errorHandler = (err, req, res, next) => {
   const response = {
     ...error,
     message: error.message,
-    ...(env.NODE_ENV === "development" ? { stack: error.stack } : {}),
+    ...(env.NODE_ENV === "dev" ? { stack: error.stack } : {}),
   };
-  if(env.NODE_ENV==="development"){
+  if(env.NODE_ENV==="dev"){
     errorLogger.error(response);
   }
   return res.status(error.statusCode).send(response);

@@ -3,8 +3,7 @@ import { ApiError } from '../../utils/ApiError.js';
 process.env.NODE_ENV == "prod" ? dotenv.config({ path: "./.env" }) : dotenv.config({ path: "./.dev.env" })
 import Joi from 'joi'
 
-const envVarsSchema = Joi.object()
-  .keys({
+const envVarsSchema = Joi.object().keys({
     NODE_ENV: Joi.string().valid('prod', 'dev').required(),
     PORT: Joi.number().default(8080),
     DB_NAME: Joi.string().required().description('Mongo DB url'),
@@ -12,8 +11,8 @@ const envVarsSchema = Joi.object()
     ACCESS_TOKEN_SECRET: Joi.string().required().description('JWT secret key'),
     ACCESS_TOKEN_EXPIRY: Joi.string().default('1day').description('minutes after which access tokens expire'),
     REFRESH_TOKEN_EXPIRY: Joi.string().default('10day').description('days after which refresh tokens expire'),
-    EMAIL: Joi.string().required().description('username for email server'),
-    PASSWORD: Joi.string().required().description('password for email server'),
+    NODE_MAILER_EMAIL: Joi.string().required().description('username for email server'),
+    NODE_MAILER_PASSWORD: Joi.string().required().description('password for email server'),
     SALT_ROUND:Joi.number().default(10).description('password hassing level'),
     PASSWORD_EXPIRATION_MINUTES: Joi.number().default(2).description('minutes after which OTP expires'),
     cloudinary_cloud_name: Joi.string().required().description('for storing image in cloudinary cloud name'),
@@ -37,8 +36,8 @@ const config = {
     REFRESH_TOKEN_EXPIRY: envVars.REFRESH_TOKEN_EXPIRY,
     PASSWORD_EXPIRATION_MINUTES:envVars.PASSWORD_EXPIRATION_MINUTES,
     NODE_ENV: envVars.NODE_ENV,
-    EMAIL: envVars.EMAIL,
-    PASSWORD: envVars.PASSWORD,
+    EMAIL: envVars.NODE_MAILER_EMAIL,
+    PASSWORD: envVars.NODE_MAILER_PASSWORD,
     cloudinary_cloud_name: envVars.cloudinary_cloud_name,
     cloudinary_api_key: envVars.cloudinary_api_key,
     cloudinary_api_secret: envVars.cloudinary_api_secret,
